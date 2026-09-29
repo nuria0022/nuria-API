@@ -1,0 +1,17 @@
+{
+  "name": "nuria-api",
+  "version": "1.0.0",
+  "description": "Servidor Node.js con un endpoint GET que devuelve HOLA SOY NURIA",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "26.x"
+  },
+  "author": "Nuria",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
