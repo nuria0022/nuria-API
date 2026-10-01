@@ -1,7 +1,7 @@
 {
   "name": "nuria-api",
-  "version": "1.0.0",
-  "description": "Servidor Node.js con un endpoint GET que devuelve HOLA SOY NURIA",
+  "version": "1.1.0",
+  "description": "API con Node.js y Express: usuarios, productos y página HTML con fetch",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

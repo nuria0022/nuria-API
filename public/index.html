@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Proyecto Node.js</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f2f4f8;
+      color: #222;
+    }
+    header {
+      background: #2b4c7e;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; }
+    header p { margin: 0; opacity: 0.9; }
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 16px;
+      display: grid;
+      gap: 20px;
+    }
+    .tarjeta {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    h2 { margin-top: 0; color: #2b4c7e; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    li:last-child { border-bottom: none; }
+    button {
+      background: #2b4c7e;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    button:hover { background: #1d3557; }
+    .error { color: #c0392b; }
+    footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>nuria-API</h1>
+    <p>Practicante: <strong>Nuria</strong></p>
+  </header>
+
+  <main>
+    <section class="tarjeta">
+      <h2>Sobre el proyecto</h2>
+      <p>
+        Servidor hecho con Node.js y Express que ofrece una pequeña API
+        (usuarios y productos) y sirve esta página. La página pide los datos
+        a la API con <code>fetch()</code> y los muestra automáticamente.
+      </p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Usuarios</h2>
+      <button id="btnRecargar">Recargar usuarios</button>
+      <ul id="listaUsuarios"><li>Cargando...</li></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Productos</h2>
+      <ul id="listaProductos"><li>Cargando...</li></ul>
+    </section>
+  </main>
+
+  <footer>Práctica Node.js + Postman + GitHub + Render</footer>
+
+  <script>
+    // Pide los usuarios a la API y los pinta en la lista
+    async function cargarUsuarios() {
+      const lista = document.getElementById("listaUsuarios");
+      lista.innerHTML = "<li>Cargando...</li>";
+      try {
+        // Ruta relativa: funciona igual en localhost y en Render
+        const respuesta = await fetch("/usuarios");
+        const usuarios = await respuesta.json();
+
+        lista.innerHTML = "";
+        usuarios.forEach((u) => {
+          const li = document.createElement("li");
+          li.textContent = `${u.id} - ${u.nombre}`;
+          lista.appendChild(li);
+        });
+      } catch (error) {
+        lista.innerHTML = '<li class="error">Error al cargar los usuarios</li>';
+      }
+    }
+
+    // Pide los productos a la API y los pinta en la lista
+    async function cargarProductos() {
+      const lista = document.getElementById("listaProductos");
+      try {
+        const respuesta = await fetch("/productos");
+        const productos = await respuesta.json();
+
+        lista.innerHTML = "";
+        productos.forEach((p) => {
+          const li = document.createElement("li");
+          li.textContent = `${p.id} - ${p.nombre} — $${p.precio.toLocaleString("es-ES")}`;
+          lista.appendChild(li);
+        });
+      } catch (error) {
+        lista.innerHTML = '<li class="error">Error al cargar los productos</li>';
+      }
+    }
+
+    // El botón vuelve a pedir los usuarios
+    document.getElementById("btnRecargar").addEventListener("click", cargarUsuarios);
+
+    // Al abrir la página se cargan los datos automáticamente
+    cargarUsuarios();
+    cargarProductos();
+  </script>
+</body>
+</html>
